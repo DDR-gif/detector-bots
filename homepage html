@@ -1,0 +1,199 @@
+<!DOCTYPE html>
+<html lang="pt-BR">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0"/>
+  <title>Detector Bots e Contas Falsas</title>
+
+  <style>
+    *{
+      margin:0;
+      padding:0;
+      box-sizing:border-box;
+      font-family: Arial, sans-serif;
+    }
+
+    body{
+      background: linear-gradient(135deg,#0f172a,#1e293b);
+      color:white;
+      min-height:100vh;
+    }
+
+    header{
+      text-align:center;
+      padding:40px 20px;
+    }
+
+    header h1{
+      font-size:42px;
+      margin-bottom:10px;
+      color:#38bdf8;
+    }
+
+    header p{
+      color:#cbd5e1;
+      font-size:18px;
+    }
+
+    .container{
+      width:90%;
+      max-width:1000px;
+      margin:auto;
+    }
+
+    .card{
+      background:#1e293b;
+      padding:30px;
+      border-radius:20px;
+      margin-bottom:30px;
+      box-shadow:0 0 20px rgba(0,0,0,0.3);
+    }
+
+    .card h2{
+      color:#38bdf8;
+      margin-bottom:20px;
+    }
+
+    .card p{
+      margin-bottom:15px;
+      line-height:1.6;
+      color:#e2e8f0;
+    }
+
+    .detector{
+      text-align:center;
+    }
+
+    input{
+      width:80%;
+      padding:15px;
+      border:none;
+      border-radius:12px;
+      font-size:16px;
+      margin-top:15px;
+      outline:none;
+    }
+
+    button{
+      margin-top:20px;
+      padding:15px 30px;
+      border:none;
+      border-radius:12px;
+      background:#38bdf8;
+      color:white;
+      font-size:16px;
+      cursor:pointer;
+      transition:0.3s;
+    }
+
+    button:hover{
+      background:#0ea5e9;
+    }
+
+    #resultado{
+      margin-top:25px;
+      font-size:20px;
+      font-weight:bold;
+    }
+
+    footer{
+      text-align:center;
+      padding:20px;
+      color:#94a3b8;
+    }
+  </style>
+</head>
+<body>
+
+  <header>
+    <h1>Detector Bots e Contas Falsas</h1>
+    <p>Descubra se um perfil pode ser um bot ou uma conta fake.</p>
+  </header>
+
+  <div class="container">
+
+    <div class="card">
+      <h2>O que são Bots e Contas Falsas?</h2>
+
+      <p>
+        <strong>Definição de Bot:</strong> 
+        Abreviatura de "robô", é um software programado para agir sozinho, realizando ações como postar, curtir e compartilhar, muitas vezes disfarçado de usuário real.
+      </p>
+
+      <p>
+        <strong>Contas Falsas (Fake Accounts/Sock Puppets):</strong> 
+        Perfis criados sem um dono real por trás, usados para criar a ilusão de popularidade ou opinião pública.
+      </p>
+
+      <p>
+        <strong>Sinônimos e Termos Relacionados:</strong> 
+        Spambots, ciborgues (conta automatizada com controle humano), perfil fake, robôs sociais, fazendas de bots.
+      </p>
+    </div>
+
+    <div class="card detector">
+      <h2>Verificar Usuário</h2>
+
+      <input 
+        type="text" 
+        id="username" 
+        placeholder="Digite o nome de usuário"
+      >
+
+      <br>
+
+      <button onclick="verificarConta()">
+        Analisar Conta
+      </button>
+
+      <div id="resultado"></div>
+    </div>
+
+  </div>
+
+  <footer>
+    © 2026 Detector Bots e Contas Falsas
+  </footer>
+
+  <script>
+    function verificarConta() {
+
+      const username = document
+        .getElementById("username")
+        .value
+        .toLowerCase();
+
+      const resultado = document.getElementById("resultado");
+
+      if(username === ""){
+        resultado.innerHTML = "Digite um nome de usuário.";
+        resultado.style.color = "orange";
+        return;
+      }
+
+      const suspeitos = [
+        "bot",
+        "fake",
+        "spam",
+        "robot",
+        "auto"
+      ];
+
+      let encontrado = suspeitos.some(palavra => 
+        username.includes(palavra)
+      );
+
+      if(encontrado){
+        resultado.innerHTML = 
+          "⚠️ Esta conta pode ser um BOT ou conta falsa.";
+        resultado.style.color = "#f87171";
+      } else {
+        resultado.innerHTML = 
+          "✅ Esta conta parece ser legítima.";
+        resultado.style.color = "#4ade80";
+      }
+    }
+  </script>
+
+</body>
+</html>
