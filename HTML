@@ -1,0 +1,55 @@
+<!DOCTYPE html>
+<html lang="pt-BR">
+<head>
+  <meta charset="UTF-8">
+  <title>Detecção de Bots</title>
+  <style>
+    .hidden {
+      display: none;
+    }
+  </style>
+</head>
+<body>
+  <h2>Cadastro</h2>
+
+  <form id="form">
+    <input type="text" name="username" placeholder="Usuário" required><br><br>
+    
+    <!-- Honeypot -->
+    <input type="text" name="website" class="hidden">
+
+    <button type="submit">Enviar</button>
+  </form>
+
+  <p id="result"></p>
+
+  <script>
+    const form = document.getElementById("form");
+    const startTime = Date.now();
+
+    form.addEventListener("submit", async (e) => {
+      e.preventDefault();
+
+      const formData = new FormData(form);
+      const timeTaken = Date.now() - startTime;
+
+      const data = {
+        username: formData.get("username"),
+        honeypot: formData.get("website"),
+        timeTaken
+      };
+
+      const res = await fetch("/check", {
+        method: "POST",
+        headers: {
+          "Content-Type": "application/json"
+        },
+        body: JSON.stringify(data)
+      });
+
+      const result = await res.json();
+      document.getElementById("result").innerText = result.message;
+    });
+  </script>
+</body>
+</html>

@@ -1,0 +1,45 @@
+const express = require("express");
+const app = express();
+
+app.use(express.json());
+
+app.post("/check", (req, res) => {
+  const { username, honeypot, timeTaken } = req.body;
+
+  let isBot = false;
+  let reasons = [];
+
+  // 1. Honeypot preenchido
+  if (honeypot) {
+    isBot = true;
+    reasons.push("Honeypot preenchido");
+  }
+
+  // 2. Tempo muito rápido (menos de 1 segundo)
+  if (timeTaken < 1000) {
+    isBot = true;
+    reasons.push("Tempo muito rápido");
+  }
+
+  // 3. Username suspeito (muitos números ou padrão estranho)
+  if (/^\d+$/.test(username) || username.length < 3) {
+    isBot = true;
+    reasons.push("Username suspeito");
+  }
+
+  if (isBot) {
+    return res.json({
+      success: false,
+      message: "Possível bot detectado: " + reasons.join(", ")
+    });
+  }
+
+  res.json({
+    success: true,
+    message: "Usuário parece legítimo 👍"
+  });
+});
+
+app.listen(3000, () => {
+  console.log("Servidor rodando em http://localhost:3000");
+});
