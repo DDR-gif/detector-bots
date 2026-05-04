@@ -2,6 +2,7 @@ const express = require("express");
 const app = express();
 
 app.use(express.json());
+app.use(express.static("public")); // 👈 IMPORTANTE
 
 app.post("/check", (req, res) => {
   const { username, honeypot, timeTaken } = req.body;
@@ -9,19 +10,16 @@ app.post("/check", (req, res) => {
   let isBot = false;
   let reasons = [];
 
-  // 1. Honeypot preenchido
   if (honeypot) {
     isBot = true;
     reasons.push("Honeypot preenchido");
   }
 
-  // 2. Tempo muito rápido (menos de 1 segundo)
   if (timeTaken < 1000) {
     isBot = true;
     reasons.push("Tempo muito rápido");
   }
 
-  // 3. Username suspeito (muitos números ou padrão estranho)
   if (/^\d+$/.test(username) || username.length < 3) {
     isBot = true;
     reasons.push("Username suspeito");
